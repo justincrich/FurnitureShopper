@@ -5,7 +5,8 @@ import * as ActionTypes from '../actiontypes/actiontypes';
 export function requestPostings(location){
     return{
         type: ActionTypes.BROWSE_REQUEST_POSTINGS,
-        location:location
+        location:location,
+        fetching:true
     }
 }
 
@@ -17,10 +18,25 @@ export function requestPostingsError(error){
 }
 
 export function receivePostings(postings){
-    console.log('postings',postings)
     return{
         type: ActionTypes.BROWSE_RECEIVE_POSTINGS,
         postings:postings
+    }
+}
+
+
+
+export function likePosting(index){
+    return{
+        type: ActionTypes.BROWSE_SAVE_LIKE,
+        postingIndex:index
+    }
+}
+
+export function hatePosting(index){
+    return{
+        type: ActionTypes.BROWSE_SAVE_HATE,
+        postingIndex:index
     }
 }
 

@@ -1,4 +1,5 @@
 import * as ActionTypes from '../actiontypes/actiontypes';
+import {REHYDRATE} from 'redux-persist/constants';
 
 const initialState = {
     allListings:[],
@@ -18,7 +19,7 @@ export default function BrowsingReducer(state = initialState, action) {
     case ActionTypes.BROWSE_REQUEST_POSTINGS:{
         return {
             ...state,
-            fetching:true,
+            fetching:action.fetching,
             location:action.location
             }
     }
@@ -33,9 +34,37 @@ export default function BrowsingReducer(state = initialState, action) {
         return {
             ...state,
             fetching:false,
-            allListings:[...action.postings]
+            allListings:action.postings
         }
         
+    }
+    case ActionTypes.BROWSE_SAVE_LIKE:{
+        let posting = state.allListings[action.postingIndex];
+        let id = posting.id;
+        
+        return {
+            ...state,
+            likedListings:{
+                    ...state.likedListings,
+                    id:posting
+            }
+        }
+    }
+    case ActionTypes.BROWSE_SAVE_HATE:{
+        let posting = state.allListings[action.postingIndex];
+        let id = posting.id;
+        return {
+            ...state,
+            hatedListings:{
+                    ...state.hatedListings,
+                    id:posting
+            }
+        }
+    }
+    case REHYDRATE:{
+        let incoming = action.payload.myReducer;
+        if(incoming) return {...state, ...incoming, specialKey: processSpecial(incoming.specialKey)};
+        return state;
     }
     default:
       return state;

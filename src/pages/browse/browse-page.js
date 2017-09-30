@@ -1,7 +1,6 @@
 //Dependencies
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import Swiper from 'react-native-deck-swiper';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -55,7 +54,14 @@ class BrowsePage extends React.Component {
     this.leftSwipeCallback = this.leftSwipeCallback.bind(this);
     this.rightSwipeCallback = this.rightSwipeCallback.bind(this);
     this.swipeUpCallback = this.swipeUpCallback.bind(this);
+    this.loadBrowser = this.loadBrowser.bind(this);
   } 
+
+  loadBrowser(){
+    console.log('load',this.props.data.browse.listings)
+
+  }
+
   getListings=(listing)=>{
     return(
       <ItemCard key={listing.id} 
@@ -70,13 +76,12 @@ class BrowsePage extends React.Component {
     this.swiper.swipeLeft();
   }
   leftSwipeCallback(index){
-    
+    this.props.Actions.hatePosting(index);
   }
   rightSwipeCallback(index){
-    
+    this.props.Actions.likePosting(index);
   }
   swipeUpCallback(index){
-    console.log('swip details')
   }
   getInfo(){
 
@@ -92,31 +97,40 @@ class BrowsePage extends React.Component {
   }
   componentWillMount(){
     this.props.Actions.fetchPostings('dallas');
-    console.log('will mount',this.props)
-  
   }
   render() {
-    //Redux Variables
-    const { navigate } = this.props.navigation;
-    // const {allListings,fetching,error,location} = this.props.browse;
-    console.log('render',this.props)
-    return (
+ 
+    let {listings,fetching} = this.props.data.browse;
+    let loaded = 
+      (listings.length >0 
+        &&
+        fetching!=true
+      )
+      ?
+      true
+      :
+      false;
 
-      <View>
-        {this.props.browse.fetching?
-          <Text>Loading</Text>
-          :
-          <View style={styles.body}>
-                      <Swiper
+
+      return(
+    <View style={styles.body}>
+        { (!fetching && listings.length>0) &&
+          <Swiper
           ref={swiper=>{this.swiper=swiper}}
-          cards={allListings}
+          cards={listings}
           renderCard={this.getListings}
           backgroundColor={formatting.colors.backgroundcolor}
           onSwipedLeft={this.leftSwipeCallback}
           onSwipedRight={this.rightSwipeCallback}
           onSwipedTop={this.swipeUpCallback}
-        > 
-      </Swiper>
+          />
+        }
+        {fetching &&
+          <Text>Loading</Text>
+        }
+        {listings.length == 0 &&
+          <Text>No Results</Text>
+        }
       <View style={styles.header}>
             <Icon 
               
@@ -132,18 +146,16 @@ class BrowsePage extends React.Component {
                 size='35'
             ></Icon>
         </View>
-        <Voter nav = {navigate} swipeRight={this.actionSwipeRight} swipeLeft={this.actionSwipeLeft}></Voter>
+        <Voter  swipeRight={this.actionSwipeRight} swipeLeft={this.actionSwipeLeft}></Voter>
       </View>
-        }
-      </View>
-            
-    )
+      )
   }
 }
 
 const styles = StyleSheet.create({
   body:{
     alignItems:'center',
+    justifyContent:'center',
     backgroundColor:formatting.colors.backgroundcolor,
     width:'100%',
     height:'100%'
@@ -160,10 +172,16 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state =>{
-  console.log('map',state)
+ 
   return(
   {
-    browse:state.browse
+    data:{
+        browse:{
+          listings:state.allListings,
+          fetching:state.fetching,
+          location:state.location
+        }
+    }
   }
 )};
 
@@ -174,11 +192,3 @@ const mapDispatchToProps = dispatch=>{
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(BrowsePage);
-
-/*
-        {fetching ?
-          <Text>Loading</Text>
-          :
-
-        }
-*/
