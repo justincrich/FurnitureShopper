@@ -1,22 +1,16 @@
 const cheerio = require('react-native-cheerio');
 
 export default class CraigsList {
-  constructor(url){
-    this.url = url;
+  constructor(){
   }
 
   scrape(parameters,totalRes=120,startIndex=undefined){
     return new Promise ((res,rej)=>{
-      let reqIndex;
-        if(typeof startIndex === 'undefined'){
-          reqIndex = 0;
-        }else if(startIndex == 0 && (startIndex+120)<totalRes){
-          reqIndex = startIndex + 120;
-        }else{
-          rej(new Error('No More Results'))
+        if(startIndex>totalRes){
+           rej(new Error('No More Results'));
         }
-        buildParams(parameters,reqIndex)
-            .then(url=> fetch(url))
+        buildParams(parameters,startIndex)
+            .then(url=>fetch(url))
             .then(res=>res.text())
             .then(text=>{
                 const output = [];
@@ -28,7 +22,6 @@ export default class CraigsList {
                   $('.result-row').each(function(index,element){
                 let dataIDs = $(this).find('a').attr('data-ids')+"";
                 let imgUrl = '';
-                // console.log(dataIDs);
                 if(dataIDs != 'undefined'){
                   const item = {};
                   dataIDs = dataIDs.substr(2,17);
@@ -42,7 +35,6 @@ export default class CraigsList {
                 }
               })
                 }
-              
               res({
                 data:output,
                 rangeFrom:rangeFrom,
@@ -60,7 +52,7 @@ export default class CraigsList {
   }
 }
 
-function buildParams(params,start=0){
+function buildParams(params,start){
   return new Promise((res,rej)=>{
 
     let keys = Object.keys(params);
@@ -92,6 +84,6 @@ function buildParams(params,start=0){
         }
       }
     })
-    
+    res(url);
   });
 }

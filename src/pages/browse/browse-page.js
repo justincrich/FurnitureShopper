@@ -177,9 +177,9 @@ const mapStateToProps = state =>{
   {
     data:{
         browse:{
-          listings:state.allListings,
-          fetching:state.fetching,
-          location:state.location
+          listings:state.core.allListings,
+          fetching:state.core.fetching,
+          location:state.core.location
         }
     }
   }

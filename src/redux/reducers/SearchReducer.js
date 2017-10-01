@@ -1,12 +1,14 @@
 import * as ActionTypes from '../actiontypes/actiontypes';
-import {REHYDRATE} from 'redux-persist/constants';
 
 const initialState = {
     results:[],
     fetching:false,
     error:null,
     parameters:{},
-    query:''
+    query:'',
+    startIndex:undefined,
+    endIndex:undefined,
+    totalCount:undefined
 }
 
 export default function SearchReducer(state = initialState, action) {
@@ -14,7 +16,10 @@ export default function SearchReducer(state = initialState, action) {
     case ActionTypes.SEARCH_REQUEST_POSTINGS:{
         return {
             ...state,
-            fetching:true
+            fetching:true,
+            startIndex:action.startIndex,
+            error:null,
+            results:[]
         }
     }
     case ActionTypes.SEARCH_RECEIVE_POSTINGS:{
@@ -22,6 +27,9 @@ export default function SearchReducer(state = initialState, action) {
             ...state,
             fetching:false,
             results:action.postings,
+            startIndex:action.startIndex,
+            endIndex:action.endIndex,
+            totalCount:action.totalCount
         }
     }
     case ActionTypes.SEARCH_REQUEST_POSTINGS_ERROR:{
@@ -37,10 +45,17 @@ export default function SearchReducer(state = initialState, action) {
             parameters:action.parameters
         }
     }
-    case REHYDRATE:{
-        let incoming = action.payload.myReducer;
-        if(incoming) return {...state, ...incoming, specialKey: processSpecial(incoming.specialKey)};
-        return state;
+    case ActionTypes.SEARCH_RESET_QUERY:{
+        return {
+            results:[],
+            fetching:false,
+            error:null,
+            parameters:{},
+            query:'',
+            startIndex:undefined,
+            endIndex:undefined,
+            totalCount:undefined
+        }
     }
     default:
       return state;

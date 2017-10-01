@@ -2,9 +2,10 @@ import * as ActionTypes from '../actiontypes/actiontypes';
 import * as craigslist from '../../resources/craigslist.js';
 import CraigsList from '../../resources/craigslist';
 
-export function requestPostings(){
+export function requestPostings(index){
     return{
         type: ActionTypes.SEARCH_REQUEST_POSTINGS,
+        startIndex:index
 
     }
 }
@@ -12,11 +13,10 @@ export function requestPostings(){
 export function receivePostings(postingsArr,startIndex,endIndex,totalCount){
     return{
         type: ActionTypes.SEARCH_RECEIVE_POSTINGS,
-        postings: postingArr,
+        postings: postingsArr,
         startIndex:startIndex,
         endIndex:endIndex,
         totalCount:totalCount
-
     }
 }
 
@@ -34,17 +34,23 @@ export function setSearchParameters(parameters){
     }
 }
 
-export function fetchListings(parameters,searchQuery){
+export function resetSearch(){
+    return{
+        type: ActionTypes.SEARCH_RESET_QUERY
+    }
+}
+
+export function fetchListings(parameters,index){
     return (dispatch)=>{
-            dispatch(requestPostings());
+            dispatch(requestPostings(index));
             const client = new CraigsList();
-            client.scrape().then(result=>{
+            client.scrape(parameters,index).then(result=>{
                 dispatch(receivePostings(
                         result.data,
                         result.rangeFrom,
                         result.rangeTo,
                         result.totalCount
-                    ))
+                ))
             }).catch(error=>dispatch(requestPostingsError(error)));
-        }
+    }
 }

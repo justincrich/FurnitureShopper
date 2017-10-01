@@ -16,7 +16,10 @@ export const store = createStore(
     )
   );
 
- persistStore(store,{storage:AsyncStorage});
+ persistStore(store,{
+     storage:AsyncStorage,
+     blacklist:['search']
+    });
 
 // let store = compose(
 //     applyMiddleware(thunk),
