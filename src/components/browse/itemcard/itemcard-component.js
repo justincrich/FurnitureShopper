@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { LinearGradient } from 'expo'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { LinearGradient } from 'expo';
 //Styling
 import formatting from '../../../styling/styles.js';
 
@@ -18,7 +18,7 @@ export default class ItemCard extends React.Component {
           >
            
           </LinearGradient>
-           <Image source={{uri:this.props.listing.imageUrl}}
+           <Image source={{uri:this.props.listing.imgUrl}}
                   style={styles.cardImg}
           />
           <View style={styles.cardInfo}>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:'center',
     width:'100%',
-    height:430,
+    height:'90%',
     marginTop:'10%',
     borderColor:"#ddd",
     borderBottomWidth:0,

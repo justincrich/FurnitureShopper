@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import BrowsingReducer from './BrowseConvoReducer';
+import CoreDataReducer from './CoreDataReducer';
 import SearchReducer from './SearchReducer';
 
 export default combineReducers({
-    core:BrowsingReducer,
+    core:CoreDataReducer,
     search:SearchReducer
 });

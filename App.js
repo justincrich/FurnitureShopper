@@ -4,14 +4,14 @@ import { StackNavigator } from 'react-navigation';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store/store';
 
-//components
+//Pages
 import SearchPage from './src/pages/search/search-page.js';
 import SearchParams from
 './src/pages/search/search-params.js';
 import BrowsePage from './src/pages/browse/browse-page.js';
 import DetailsPage from './src/pages/itemdetails/itemdetails-page.js';
 import LoginPage from './src/pages/login/login-page.js';
-
+import FavoritesPage from './src/pages/favorite_items/favorite_items_page.js';
 
 //Setup routes
 var AppNavigator = StackNavigator({
@@ -25,10 +25,14 @@ var AppNavigator = StackNavigator({
     screen: BrowsePage,
   },
   Details: { screen: DetailsPage},
-  Login: { screen:LoginPage}
-},{
-  initialRouteName:'Search'
-}
+  Login: { screen:LoginPage},
+  Favorites: {
+    screen:FavoritesPage
+  }
+  },
+  {
+    initialRouteName:'Details'
+  }
 );
 
 //put it all together

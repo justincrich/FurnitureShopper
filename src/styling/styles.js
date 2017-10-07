@@ -1,14 +1,14 @@
 export default {
     colors: {
-        primarycolordark:   "#E64A19",
+        primarycolordark:   "#091b22",
         primarycolor:       "#FF5722",
-        primarycolorlight:  "#FFCCBC",
-        primarycolortext:   "#FFFFFF",
-        accentcolor:        "#FF4081",
+        primarycolorlight:  "#51a1d0",
+        accentcolor:        "#51a1d0",
         primarytextcolor:   "#212121",
         secondarytextcolor: "#757575",
         dividercolor:       "#BDBDBD",
-        backgroundcolor:    "#F5F5F5"
+        backgroundcolor:    "#FEFDFC",
+
     },
     typography:{
         sizes:{
@@ -16,6 +16,7 @@ export default {
             heading:20,
             subheading:16,
             body:14,
+            small:12
         }
     }
 }

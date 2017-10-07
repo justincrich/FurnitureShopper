@@ -1,7 +1,7 @@
 import * as ActionTypes from '../actiontypes/actiontypes';
 
 const initialState = {
-    results:[],
+    results:{},
     fetching:false,
     error:null,
     parameters:{},
@@ -19,7 +19,7 @@ export default function SearchReducer(state = initialState, action) {
             fetching:true,
             startIndex:action.startIndex,
             error:null,
-            results:[]
+            results:{}
         }
     }
     case ActionTypes.SEARCH_RECEIVE_POSTINGS:{
@@ -47,7 +47,7 @@ export default function SearchReducer(state = initialState, action) {
     }
     case ActionTypes.SEARCH_RESET_QUERY:{
         return {
-            results:[],
+            results:{},
             fetching:false,
             error:null,
             parameters:{},

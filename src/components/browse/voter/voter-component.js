@@ -16,7 +16,7 @@ export default class Voter extends React.Component {
             name='close'
             type='material-community'
             onPress={this.props.swipeLeft}
-            raised={true}
+            color='#51a1d0'
             size={40}
             containerStyle={styles.iconContainer}
           ></Icon>
@@ -24,10 +24,10 @@ export default class Voter extends React.Component {
             name='heart-outline'
             type='material-community'
             onPress={this.props.swipeRight}
-            raised={true}
+
             size={40}
             containerStyle={styles.iconContainer}
-            color="red"
+            color="#e53424"
           ></Icon>
         </View>
     );
@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
 
   container:{
     position:'absolute',
-    bottom:30,
     flexDirection:'row',
+    bottom:15
   },
   iconContainer:{
-    marginLeft:25,
-    marginRight:25
+    marginLeft:50,
+    marginRight:50
   }
 });
